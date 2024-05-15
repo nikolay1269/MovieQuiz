@@ -36,9 +36,11 @@ final class MovieQuizViewController: UIViewController {
         QuizQuestion(image: "Vivarium", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: false)]
     
     
-    @IBOutlet weak private var imageView: UIImageView!
-    @IBOutlet weak private var textLabel: UILabel!
-    @IBOutlet weak private var counterLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var textLabel: UILabel!
+    @IBOutlet private weak var counterLabel: UILabel!
+    @IBOutlet private weak var yesButton: UIButton!
+    @IBOutlet private weak var noButton: UIButton!
     
     // MARK: - Lifecycle
     
@@ -66,17 +68,14 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func initImageView() {
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 1
-        imageView.layer.cornerRadius = 6
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 0
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-
-        return QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(),
-                                 question: model.text,
-                                 questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
+        
+        QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(),
+                          question: model.text,
+                          questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
     }
     
     private func show(quiz step: QuizStepViewModel) {
@@ -110,9 +109,16 @@ final class MovieQuizViewController: UIViewController {
             imageView.layer.borderColor = UIColor.ypRed.cgColor
         }
         
+        changeButtonsEnabled(enabled: false)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.showNextQuestionOrResults()
         }
+    }
+    
+    private func changeButtonsEnabled(enabled: Bool) {
+        yesButton.isEnabled = enabled
+        noButton.isEnabled = enabled
     }
     
     private func showNextQuestionOrResults() {
@@ -133,5 +139,6 @@ final class MovieQuizViewController: UIViewController {
             let viewModel = convert(model: nextQuestion)
             show(quiz: viewModel)
         }
+        changeButtonsEnabled(enabled: true)
     }
 }
