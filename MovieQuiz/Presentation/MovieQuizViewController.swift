@@ -81,8 +81,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func show(quiz result: QuizResultViewModel) {
         
-        let alertViewModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText) {
+        let alertViewModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText) { [weak self] in
             
+            guard let self = self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             self.questionFactory?.requestNextQuestion()
@@ -102,8 +103,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         changeButtonsEnabled(enabled: false)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self = self else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            
             self.showNextQuestionOrResults()
         }
     }

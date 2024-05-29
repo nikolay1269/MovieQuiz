@@ -13,6 +13,7 @@ private enum Keys: String {
     case gamesCount
     case total
     case date
+    case correctAnswers
 }
 
 protocol StatisticServiceProtocol {
@@ -59,6 +60,7 @@ final class StatisticService: StatisticServiceProtocol {
                 return 0
             }
             else {
+                correctAnswers = storage.integer(forKey: Keys.correctAnswers.rawValue)
                 return (Double(correctAnswers) / Double(gameCount * 10)) * 100
             }
         }
@@ -67,6 +69,7 @@ final class StatisticService: StatisticServiceProtocol {
     func store(correct count: Int, total amount: Int) {
         
         correctAnswers += count
+        storage.set(correctAnswers, forKey: Keys.correctAnswers.rawValue)
         gameCount += 1
         let newGameResult = GameResult(correct: count, total: amount, date: Date())
         if newGameResult.isResultBetter(bestGame) {
