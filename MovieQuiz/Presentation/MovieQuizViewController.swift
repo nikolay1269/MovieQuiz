@@ -83,7 +83,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         let alertViewModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText) { [weak self] in
             
-            guard let self = self else { return }
+            guard let self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             self.questionFactory?.requestNextQuestion()
@@ -125,7 +125,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             let bestGameResult = statisticService?.bestGame.correct ?? 0
             let date = statisticService?.bestGame.date.dateTimeString ?? Date().dateTimeString
             let accuracy = "\(String(format: "%.2f", statisticService?.totalAccuracy ?? 0))%"
-            let text = "Ваш результат \(correctAnswers)/10\nКоличество сыгранных квизов:\(gameCount)\nРекорд: \(bestGameResult)/10(\(date))\nСредняя точность:\(accuracy)"
+            let text = """
+Ваш результат \(correctAnswers)/10
+Количество сыгранных квизов:\(gameCount)
+Рекорд: \(bestGameResult)/10(\(date))
+Средняя точность:\(accuracy)
+"""
             let quizResultModel = QuizResultViewModel(title: "Этот раунд окончен",
                                                       text: text,
                                                       buttonText: "Сыграть ещё раз?")
