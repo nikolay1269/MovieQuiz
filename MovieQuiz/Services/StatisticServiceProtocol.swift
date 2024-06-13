@@ -68,6 +68,7 @@ final class StatisticService: StatisticServiceProtocol {
     
     func store(correct count: Int, total amount: Int) {
         
+        correctAnswers = storage.integer(forKey: Keys.correctAnswers.rawValue)
         correctAnswers += count
         storage.set(correctAnswers, forKey: Keys.correctAnswers.rawValue)
         gameCount += 1
