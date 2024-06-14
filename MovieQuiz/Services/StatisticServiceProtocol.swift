@@ -27,9 +27,7 @@ protocol StatisticServiceProtocol {
 
 final class StatisticService: StatisticServiceProtocol {
     
-    private var correctAnswers: Int = 0
-    private let storage: UserDefaults = .standard
-    
+    // MARK: - Public Properties
     var gameCount: Int {
         get {
             return storage.integer(forKey: Keys.gamesCount.rawValue)
@@ -66,6 +64,11 @@ final class StatisticService: StatisticServiceProtocol {
         }
     }
     
+    // MARK: - Private Properties
+    private var correctAnswers: Int = 0
+    private let storage: UserDefaults = .standard
+    
+    // MARK: - Public Methods
     func store(correct count: Int, total amount: Int) {
         
         correctAnswers = storage.integer(forKey: Keys.correctAnswers.rawValue)
