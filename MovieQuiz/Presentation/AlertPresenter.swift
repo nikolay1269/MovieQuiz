@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AlertPresenter {
+final class AlertPresenter {
     
     static func showAlert(model: AlertModel, viewController: UIViewController) {
         let alert = UIAlertController(title: model.title,
