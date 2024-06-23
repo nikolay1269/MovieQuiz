@@ -12,14 +12,14 @@ final class MovieQuizPresenter {
     // MARK: - Private Properties
     private let statisticService: StatisticServiceProtocol!
     private var questionFactory: QuestionFactoryProtocol?
-    private weak var viewController: MovieQuizViewController?
+    private weak var viewController: MovieQuizViewControllerProtocol?
     private var currentQuestion: QuizQuestion? = nil
     private let questionsAmount: Int = 10
     private var correctAnswers = 0
     private var currentQuestionIndex: Int = 0
     
     // MARK: - Initializer
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         
         self.viewController = viewController
         statisticService = StatisticService()
