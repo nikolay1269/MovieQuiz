@@ -10,7 +10,7 @@ import UIKit
 final class MovieQuizPresenter {
     
     // MARK: - Private Properties
-    private let statisticService: StatisticServiceProtocol!
+    private let statisticService: StatisticServiceProtocol
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
     private var currentQuestion: QuizQuestion? = nil
@@ -19,10 +19,11 @@ final class MovieQuizPresenter {
     private var currentQuestionIndex: Int = 0
     
     // MARK: - Initializer
-    init(viewController: MovieQuizViewControllerProtocol) {
+    init(viewController: MovieQuizViewControllerProtocol,
+         statisticService: StatisticServiceProtocol) {
         
         self.viewController = viewController
-        statisticService = StatisticService()
+        self.statisticService = statisticService
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.loadData()
         viewController.showLoadingIndicator()
@@ -90,8 +91,11 @@ final class MovieQuizPresenter {
         self.viewController?.changeButtonsEnabled(enabled: true)
     }
     
-    func makeResultMessage() -> String {
+    func saveStatistics() {
         statisticService.store(correct: correctAnswers, total: questionsAmount)
+    }
+    
+    func makeResultMessage() -> String {
         
         let bestGame = statisticService.bestGame
         

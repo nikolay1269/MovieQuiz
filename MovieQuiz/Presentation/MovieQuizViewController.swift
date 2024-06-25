@@ -18,7 +18,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        presenter = MovieQuizPresenter(viewController: self)
+        presenter = MovieQuizPresenter(viewController: self, statisticService: StatisticService())
     }
     
     // MARK: - IB Actions
@@ -40,6 +40,8 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     // MARK: - Public Methods
     func show(quiz result: QuizResultViewModel) {
+        
+        presenter.saveStatistics()
         
         let message = presenter.makeResultMessage()
 
